@@ -1,0 +1,6 @@
+packages
+.vs
+*.user
+/WorkflowModerniser.Tests/Metadata/MetadataGenerator365.exe.config
+bin
+obj
