@@ -170,7 +170,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 
 		private string GetGlobalIdentifier(string identifer)
 		{
-			return string.Format("[@{0}]", GetIdentifier(identifer));
+			return string.Format("[@'{0}']", identifer);
 		}
 
 		public void WriteUpdateRow(LCPEntityVariable entity)
@@ -256,18 +256,18 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 					value = string.Format("'{0} ({1})'.'{2}'", attributeMeta.DisplayName.UserLocalizedLabel.Label, entityMetadata.DisplayCollectionName.UserLocalizedLabel.Label, option.Label.UserLocalizedLabel.Label);
 				}
 
-				output.Write(GetIdentifier(attrMeta.DisplayName.UserLocalizedLabel.Label));
-				output.Write(": ");
-				output.Write(value);
-				if (++count < entity.ColumnExpressions.Count)
+				if (count++ >0)
 				{
 					output.WriteLine(",");
 				}
-				else
-				{
-					output.WriteLine();
-				}
+				output.Write(GetIdentifier(attrMeta.DisplayName.UserLocalizedLabel.Label));
+				output.Write(": ");
+				output.Write(value);
+				
+
+				
 			}
+
 
 			output.WriteLine("}");
 		}
@@ -418,17 +418,23 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 			StringBuilder expr = new StringBuilder(output.ToString());
 			expr.Append(outputAfter.ToString());
 
+			//Remove trailing ;
+			if (expr[expr.Length - 1] == ';')
+			{
+				expr.Remove(expr.Length- 1, 1);
+			}
+
 			foreach (MessageName messageName in Enum.GetValues(typeof(MessageName)))
 			{
 				if (context.MessageNames.HasFlag(messageName))
 				{
 					if (messageName == MessageName.Action)
 					{
-						yield return new InstantPlugin(string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName, messageName.ToString(), expr.ToString());
+						yield return new InstantPlugin(string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName.ToLower(), expr.ToString());
 					}
 					else
 					{
-						yield return new AutomatedPlugin(string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName, context.IsPreOperation ? 20 : 40, messageName.ToString(), expr.ToString());
+						yield return new AutomatedPlugin(string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName.ToLower(), context.IsPreOperation ? 20 : 40, messageName.ToString(), expr.ToString());
 					}
 				}
 			}

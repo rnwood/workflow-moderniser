@@ -17,11 +17,11 @@ namespace WorkflowModerniser
 	{
 		static void Main(string[] args)
 		{
-			if (args.Length != 3)
+			if (args.Length != 4)
 			{
 				Console.Error.WriteLine("Invalid arguments.");
 				Console.Error.WriteLine("Usage:");
-				Console.Error.WriteLine($"{Assembly.GetEntryAssembly().GetName().Name} <connectionstring> <workflowid> <outputtype>");
+				Console.Error.WriteLine($"{Assembly.GetEntryAssembly().GetName().Name} <connectionstring> <workflowid> <outputtype> <solutionuniquename>");
 				Console.Error.WriteLine("Valid output types: lowcodeplugin cloudflow formscript");
 				Environment.Exit(1);
 				return;
@@ -32,7 +32,11 @@ namespace WorkflowModerniser
 			IWorkflowSource workflowSource = new OrgServiceWorkflowSource(serviceClient);
 			Workflow workflow = workflowSource.GetWorkflow(new Guid(args[1]));
 
+			string solutionUniqueName = args[3];
+
 			MetadataService metadataService = new MetadataService(serviceClient);
+
+			Solution solution = workflowSource.GetSolution(solutionUniqueName);
 
 			IWorkflowConverter converter;
 
@@ -59,6 +63,13 @@ namespace WorkflowModerniser
 			string resultJson = JsonConvert.SerializeObject(results, Formatting.Indented);
 			Console.WriteLine(resultJson);
 
+			foreach(var result in results)
+			{
+				Console.Error.WriteLine($"Creating or updating output '{result.Name}' in solution '{solution.UniqueName}'");
+				result.Ensure(serviceClient, solution);
+			}
+
+			Console.Error.WriteLine("Complete!");
 		}
 	}
 }

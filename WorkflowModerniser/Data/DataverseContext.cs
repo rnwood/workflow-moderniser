@@ -73,6 +73,17 @@ namespace WorkflowModerniser.Data
 		}
 		
 		/// <summary>
+		/// Gets a binding to the set of all <see cref="WorkflowModerniser.Data.Solution"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<WorkflowModerniser.Data.Solution> SolutionSet
+		{
+			get
+			{
+				return this.CreateQuery<WorkflowModerniser.Data.Solution>();
+			}
+		}
+		
+		/// <summary>
 		/// Gets a binding to the set of all <see cref="WorkflowModerniser.Data.Workflow"/> entities.
 		/// </summary>
 		public System.Linq.IQueryable<WorkflowModerniser.Data.Workflow> WorkflowSet

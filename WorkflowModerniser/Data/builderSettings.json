@@ -94,13 +94,19 @@
     "sdkmessagefilter",
     "sdkmessageprocessingstep",
     "sdkmessageprocessingstepsecureconfig",
+    "solution",
     "workflow"
   ],
   "entityTypesFolder": "Entities",
   "generateActions": true,
   "generateGlobalOptionSets": false,
   "messageNamesFilter": [
-    "analyze*"
+    "executefxexpression*",
+    "generateautomatedplugin*",
+    "generateinstantplugin*",
+    "generatepowerfxformula*",
+    "updateautomatedplugin*",
+    "updateinstantplugin*"
   ],
   "messagesTypesFolder": "Messages",
   "metadataProviderService": "DLaB.ModelBuilderExtensions.MetadataProviderService,DLaB.ModelBuilderExtensions",

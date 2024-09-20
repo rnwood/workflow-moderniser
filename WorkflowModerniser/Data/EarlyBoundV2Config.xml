@@ -10,7 +10,12 @@
   <EntityTypesFolder>Entities</EntityTypesFolder>
   <ExtensionConfig>
     <ActionPrefixesWhitelist />
-    <ActionsWhitelist>analyze</ActionsWhitelist>
+    <ActionsWhitelist>executefxexpression|
+generateautomatedplugin|
+generateinstantplugin|
+generatepowerfxformula|
+updateautomatedplugin|
+updateinstantplugin</ActionsWhitelist>
     <ActionsToSkip />
     <AddDebuggerNonUserCode>true</AddDebuggerNonUserCode>
     <AddNewFilesToProject>true</AddNewFilesToProject>
@@ -32,6 +37,7 @@
 sdkmessagefilter|
 sdkmessageprocessingstep|
 sdkmessageprocessingstepsecureconfig|
+solution|
 workflow</EntitiesWhitelist>
     <EntityAttributeSpecifiedNames />
     <EntityClassNameOverrides />

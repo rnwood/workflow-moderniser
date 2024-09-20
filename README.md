@@ -9,25 +9,28 @@ This tool should allow large implementation to move forwards more easily.
 How to use:
 This is a simple command line tool currently which must be executed as follows:
 ```
-WorkflowModerniser.exe <connectionstring> <workflowid> <outputtype>
+WorkflowModerniser.exe <connectionstring> <workflowid> <outputtype> <solutionuniquename>
 ```
 `<connectionstring>` - Connection string for the environment contaning the workflow. See https://learn.microsoft.com/en-us/power-apps/developer/data-platform/xrm-tooling/use-connection-strings-xrm-tooling-connect
-`workflowid` - Workflow ID for the Classic Workflow
-`<outputtype>` - Valid output types: lowcodeplugin cloudflow (experimental) formscript (experimental)
 
-The output is a JSON serialised array of the outputs. Currently, we do not actually create these in the target environment.
+`workflowid` - Workflow ID for the Classic Workflow
+
+`<outputtype>` - Valid output types: `lowcodeplugin` `cloudflow` (experimental) `formscript` (experimental)
+
+`<soluitionuniquename>` - Solution to add the outputs to (unique name).
+
+The output is a JSON serialised array of the outputs for debugging. The program will then try actually create/update these outputs in the solution you provided.
 
 Status:
 - Alpha POC! 
+- NEW! The outputs are actually created for `lowcodeplugin` output type.
 - Only the surface area that I've encountered so far in testing is covered by the converter. It should currently throw an exception when hitting something that isn't handled. Please feed back!
-- Currently the results are not saved.
 - Only foreground Workflows are currently supported. This is not currently enforced.
-- Terminate with success action is not supported
+- Terminate with success action is not supported (how do we achieve this?)
 
 Future potential roadmap:
 - Create some automated tests if feasible and valuable without them being too rigid (hard!)
 - Testing with more real Workflows
-- Save results to environment - create the LCPs automatically from the results
 - Allow configurable 'best effort' mode where unsupported elements just write an Error("TODO").
 - Wrap up in XrmToolbox plugin UI
 - Conversion of background Workflows to Power Automate Cloud Flows. This is feasible and the project has been structured to allow it.

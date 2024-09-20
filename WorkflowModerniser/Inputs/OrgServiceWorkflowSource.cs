@@ -14,6 +14,12 @@ namespace WorkflowModerniser.Inputs
 			this.organizationService = organizationService;
 		}
 
+		public Solution GetSolution(string solutionUniqueName)
+		{
+			return new DataverseContext(organizationService).SolutionSet.FirstOrDefault(s => s.UniqueName == solutionUniqueName);
+
+		}
+
 		public Workflow GetWorkflow(Guid workflowId)
 		{
 			return new DataverseContext(organizationService).WorkflowSet.FirstOrDefault(w => w.Id == workflowId);

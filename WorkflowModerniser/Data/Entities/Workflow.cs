@@ -40,6 +40,10 @@ namespace WorkflowModerniser.Data
 		Action = 3,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("AI Flow", 7)]
+		AiFlow = 7,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Business Process Flow", 4)]
 		BusinessProcessFlow = 4,
 		
@@ -240,6 +244,8 @@ namespace WorkflowModerniser.Data
 			public const string Category = "category";
 			public const string CategoryName = "categoryname";
 			public const string ClientData = "clientdata";
+			public const string ClientDataIsCompressed = "clientdataiscompressed";
+			public const string ClientDataIsCompressedName = "clientdataiscompressedname";
 			public const string ComponentState = "componentstate";
 			public const string ConnectionReferences = "connectionreferences";
 			public const string CreatedBy = "createdby";
@@ -287,6 +293,7 @@ namespace WorkflowModerniser.Data
 			public const string ModifiedOnBehalfBy = "modifiedonbehalfby";
 			public const string ModifiedOnBehalfByName = "modifiedonbehalfbyname";
 			public const string ModifiedOnBehalfByYomiName = "modifiedonbehalfbyyominame";
+			public const string ModifyMetadata = "modifymetadata";
 			public const string Name = "name";
 			public const string OnDemand = "ondemand";
 			public const string OnDemandName = "ondemandname";
@@ -301,6 +308,8 @@ namespace WorkflowModerniser.Data
 			public const string OwningUser = "owninguser";
 			public const string ParentWorkflowId = "parentworkflowid";
 			public const string ParentWorkflowIdName = "parentworkflowidname";
+			public const string PlanVerified = "planverified";
+			public const string PlanVerifiedName = "planverifiedname";
 			public const string PluginTypeId = "plugintypeid";
 			public const string PrimaryEntity = "primaryentity";
 			public const string PrimaryEntityName = "primaryentityname";
@@ -566,6 +575,36 @@ namespace WorkflowModerniser.Data
 			set
 			{
 				this.SetAttributeValue("clientdata", value);
+			}
+		}
+		
+		/// <summary>
+		/// For Internal Use Only.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("clientdataiscompressed")]
+		public System.Nullable<bool> ClientDataIsCompressed
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("clientdataiscompressed");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("clientdataiscompressedname")]
+		public string ClientDataIsCompressedName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("clientdataiscompressed"))
+				{
+					return this.FormattedValues["clientdataiscompressed"];
+				}
+				else
+				{
+					return default(string);
+				}
 			}
 		}
 		
@@ -1346,6 +1385,24 @@ namespace WorkflowModerniser.Data
 		}
 		
 		/// <summary>
+		/// Flow modify metadata used for telemetry, etc.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("modifymetadata")]
+		public string ModifyMetadata
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("modifymetadata");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("modifymetadata", value);
+			}
+		}
+		
+		/// <summary>
 		/// Name of the process.
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("name")]
@@ -1492,11 +1549,6 @@ namespace WorkflowModerniser.Data
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("owningbusinessunit");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("owningbusinessunit", value);
-			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("owningbusinessunitname")]
@@ -1564,6 +1616,41 @@ namespace WorkflowModerniser.Data
 				if (this.FormattedValues.Contains("parentworkflowid"))
 				{
 					return this.FormattedValues["parentworkflowid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		/// <summary>
+		/// For Internal Use Only.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("planverified")]
+		public System.Nullable<bool> PlanVerified
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("planverified");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("planverified", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("planverifiedname")]
+		public string PlanVerifiedName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("planverified"))
+				{
+					return this.FormattedValues["planverified"];
 				}
 				else
 				{
