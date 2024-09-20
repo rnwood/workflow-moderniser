@@ -21,7 +21,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
     
     - name: Restore Packages
-      run: nuget restore SolutionModerniser.sln
+      run: nuget restore WorkflowModerniser.sln
     
     - name: Build solution
-      run: msbuild SolutionModerniser.sln -t:publish -property:Configuration=Release
+      run: msbuild WorkflowModerniser.sln -t:publish -property:Configuration=Release
