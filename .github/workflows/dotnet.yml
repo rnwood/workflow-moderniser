@@ -1,0 +1,32 @@
+name: .NET
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+      
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1.1
+    
+    - name: Restore Packages
+      run: nuget restore WorkflowModerniser.sln
+    
+    - name: Build solution
+      run: msbuild WorkflowModerniser.sln -t:publish -property:Configuration=Release
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: WorkflowModerniser
+        path: WorkflowModerniser\bin\Release\app.publish\
