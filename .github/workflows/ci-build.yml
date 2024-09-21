@@ -24,11 +24,11 @@ jobs:
       run: nuget restore WorkflowModerniser.sln
     
     - name: Build solution
-      run: msbuild WorkflowModerniser.sln -t:publish -property:Configuration=Release
+      run: msbuild WorkflowModerniser.sln -t:build -p:OutputPath=WorkflowModerniser\bin\Release -p:Configuration=Release
 
     - uses: vimtor/action-zip@v1.2
       with:
-        files: WorkflowModerniser\bin\Release\app.publish\
+        files: WorkflowModerniser\bin\Release\
         dest: WorkflowModerniser.zip
 
     - uses: actions/upload-artifact@v4
