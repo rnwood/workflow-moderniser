@@ -2,7 +2,7 @@
 
 namespace WorkflowModerniser.Inputs
 {
-	public interface IMetadataService
+	internal interface IMetadataService
 	{
 		EntityMetadata GetEntityMetadata(string entityName);
 	}

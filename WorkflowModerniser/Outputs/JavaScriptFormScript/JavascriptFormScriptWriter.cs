@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 {
-	public class JSFSEntityVariable : EntityVariable
+	internal class JSFSEntityVariable : EntityVariable
 	{
         public string EntityExpression { get; set; }
 		public IDictionary<string, string> ColumnExpressions { get; internal set; } = new Dictionary<string, string>();
 	}
 
-	public class JavascriptFormScriptWriter : IWorkflowWriter<JSFSEntityVariable>
+	internal class JavascriptFormScriptWriter : IWorkflowWriter<JSFSEntityVariable>
 	{
 		private readonly WriterContext ctx;
 		private readonly StringBuilder headerOutputs = new StringBuilder();

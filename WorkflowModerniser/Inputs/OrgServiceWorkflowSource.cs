@@ -1,17 +1,20 @@
 ﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Metadata;
 using System;
 using System.Linq;
 using WorkflowModerniser.Data;
 
 namespace WorkflowModerniser.Inputs
 {
-	public class OrgServiceWorkflowSource : IWorkflowSource
+	internal class OrgServiceWorkflowSource : IWorkflowSource
 	{
-		private IOrganizationService organizationService;
+		private readonly IOrganizationService organizationService;
+		private readonly IMetadataService metadataService;
 
-		public OrgServiceWorkflowSource(IOrganizationService organizationService)
+		public OrgServiceWorkflowSource(IOrganizationService organizationService, IMetadataService metadataService)
 		{
 			this.organizationService = organizationService;
+			this.metadataService = metadataService;
 		}
 
 		public Solution GetSolution(string solutionUniqueName)
@@ -20,7 +23,7 @@ namespace WorkflowModerniser.Inputs
 
 		}
 
-		public Workflow GetWorkflow(Guid workflowId)
+		public IWorkflow GetWorkflow(Guid workflowId)
 		{
 			return new DataverseContext(organizationService).WorkflowSet.FirstOrDefault(w => w.Id == workflowId);
 		}

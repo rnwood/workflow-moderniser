@@ -13,7 +13,7 @@ namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 
 		public string Name => throw new NotImplementedException();
 
-		public void Ensure(IOrganizationService serviceClient, Data.Solution solution)
+		public void Ensure(IOrganizationService serviceClient, string solutionUniqueName)
 		{
 			throw new NotImplementedException();
 		}

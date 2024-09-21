@@ -10,6 +10,7 @@ using WorkflowModerniser.Inputs;
 using WorkflowModerniser.Outputs.JavaScriptFormScript;
 using WorkflowModerniser.Outputs.LowCodeCodePlugins;
 using WorkflowModerniser.Outputs.PowerAutomateCloudFlow;
+using static WorkflowModerniser.WorkflowConverter;
 
 namespace WorkflowModerniser
 {
@@ -29,44 +30,29 @@ namespace WorkflowModerniser
 
 			CrmServiceClient serviceClient = new CrmServiceClient(args[0]);
 
-			IWorkflowSource workflowSource = new OrgServiceWorkflowSource(serviceClient);
-			Workflow workflow = workflowSource.GetWorkflow(new Guid(args[1]));
-
 			string solutionUniqueName = args[3];
 
-			MetadataService metadataService = new MetadataService(serviceClient);
 
-			Solution solution = workflowSource.GetSolution(solutionUniqueName);
+			WorkflowConverter.OutputType outputType;
 
-			IWorkflowConverter converter;
-
-			switch (args[2])
+			if (!Enum.TryParse(args[2], true, out outputType))
 			{
-				case "lowcodeplugin":
-					converter = new WorkflowConverter<LCPEntityVariable>(workflowSource, metadataService, (ctx) => new LowCodePluginPowerFxWriter(ctx));
-					break;
-
-				case "cloudflow":
-					converter = new WorkflowConverter<PACFEntityVariable>(workflowSource, metadataService, (ctx) => new PowerAutomateCloudFlowWriter());
-					break;
-
-				case "formscript":
-					converter = new WorkflowConverter<JSFSEntityVariable>(workflowSource, metadataService, (ctx) => new JavascriptFormScriptWriter(ctx));
-					break;
-				default:
-					throw new Exception($"Unsupported output type '{args[2]}'");
+				throw new Exception($"Unsupported output type '{args[2]}'");
 			}
 
+
+			IWorkflowConverter converter = WorkflowConverter.Create(serviceClient, outputType);
+
 			IEnumerable<Outputs.IOutput> results = converter.
-						Convert(workflow);
+						Convert(new Guid(args[1]));
 
 			string resultJson = JsonConvert.SerializeObject(results, Formatting.Indented);
 			Console.WriteLine(resultJson);
 
-			foreach(var result in results)
+			foreach (var result in results)
 			{
-				Console.Error.WriteLine($"Creating or updating output '{result.Name}' in solution '{solution.UniqueName}'");
-				result.Ensure(serviceClient, solution);
+				Console.Error.WriteLine($"Creating or updating output '{result.Name}' in solution '{solutionUniqueName}'");
+				result.Ensure(serviceClient, solutionUniqueName);
 			}
 
 			Console.Error.WriteLine("Complete!");

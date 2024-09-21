@@ -2,7 +2,7 @@
 
 namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 {
-	public class LCPEntityVariable : EntityVariable
+	internal class LCPEntityVariable : EntityVariable
 	{
 		public LCPEntityVariable(string tableName, string recordExpression)
 		{

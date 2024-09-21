@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkflowModerniser.Inputs;
-using WorkflowModerniser.Outputs;
 
-namespace WorkflowModerniser
+namespace WorkflowModerniser.Data
 {
-	public interface IWorkflowConverter
+	public partial class Workflow : IWorkflow
 	{
-		IEnumerable<IOutput> Convert(Guid workflowId);
 	}
 }

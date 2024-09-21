@@ -3,10 +3,10 @@ using WorkflowModerniser.Data;
 
 namespace WorkflowModerniser.Inputs
 {
-	public interface IWorkflowSource
+	internal interface IWorkflowSource
 	{
 		Solution GetSolution(string solutionUniqueName);
-		Workflow GetWorkflow(Guid workflowId);
+		IWorkflow GetWorkflow(Guid workflowId);
 
 	}
 

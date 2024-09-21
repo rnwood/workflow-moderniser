@@ -13,7 +13,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 {
 
 
-	public class LowCodePluginPowerFxWriter : IWorkflowWriter<LCPEntityVariable>
+	internal class LowCodePluginPowerFxWriter : IWorkflowWriter<LCPEntityVariable>
 	{
 		public LowCodePluginPowerFxWriter(WriterContext writerContext)
 		{
@@ -467,7 +467,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 
 		public void WriteSetClientEntityAttributeValues(LCPEntityVariable entity)
 		{
-			throw new NotImplementedException();
+			this.WriteUpdateRow(entity);
 		}
 
 		public void WriteClientRecommendation(LCPEntityVariable entity, string controlIdExpression, string description, Dictionary<string, Action> writeActions) 

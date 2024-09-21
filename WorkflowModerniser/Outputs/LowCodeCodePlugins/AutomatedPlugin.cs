@@ -17,7 +17,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 
 		public int Stage { get; set; }
 
-		public void Ensure(IOrganizationService service, Solution solution)
+		public void Ensure(IOrganizationService service, string solutionUniqueName)
 		{
 			var ctx = new DataverseContext(service);
 			var existingFx = ctx.FxExpressionSet.Where(f => f.Name == Name).FirstOrDefault();
@@ -31,7 +31,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 					Expression = this.Expression,
 					Name = this.Name,
 					Stage = this.Stage,
-					SolutionUniqueName = solution.UniqueName
+					SolutionUniqueName = solutionUniqueName
 				});
 			} else
 			{
@@ -43,7 +43,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 					Name = this.Name,
 					Stage = this.Stage,
 					FxExpressionUniqueName = existingFx.UniqueName,
-					SolutionUniqueName = solution.UniqueName
+					SolutionUniqueName = solutionUniqueName
 				});
 			}
 

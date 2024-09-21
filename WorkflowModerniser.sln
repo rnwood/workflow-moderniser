@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser.SubstituteClientActivities", "WorkflowModerniser.SubtituteClientActivities\WorkflowModerniser.SubstituteClientActivities.csproj", "{FE623C6A-964E-4D9C-9DF5-6419C95D018E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser.XrmToolboxPlugin", "WorkflowModerniser.XrmToolboxPlugin\WorkflowModerniser.XrmToolboxPlugin.csproj", "{0175BCDE-F8A9-4BF3-8BB7-3011B6164733}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FE623C6A-964E-4D9C-9DF5-6419C95D018E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE623C6A-964E-4D9C-9DF5-6419C95D018E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE623C6A-964E-4D9C-9DF5-6419C95D018E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0175BCDE-F8A9-4BF3-8BB7-3011B6164733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0175BCDE-F8A9-4BF3-8BB7-3011B6164733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0175BCDE-F8A9-4BF3-8BB7-3011B6164733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0175BCDE-F8A9-4BF3-8BB7-3011B6164733}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

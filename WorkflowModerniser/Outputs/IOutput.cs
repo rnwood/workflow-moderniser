@@ -7,6 +7,6 @@ namespace WorkflowModerniser.Outputs
 	{
 		string Name { get; }
 
-		void Ensure(IOrganizationService serviceClient, Data.Solution solution);
+		void Ensure(IOrganizationService serviceClient, string solutionUniqueName);
 	}
 }

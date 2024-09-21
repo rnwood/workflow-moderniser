@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace WorkflowModerniser.Inputs
 {
 
-	public class MetadataService : IMetadataService
+	internal class MetadataService : IMetadataService
 	{
 		private readonly IOrganizationService service;
 
@@ -17,15 +17,15 @@ namespace WorkflowModerniser.Inputs
 
 		public EntityMetadata GetEntityMetadata(string entityName)
 		{
-			if (!EntityMetadataCache.TryGetValue(entityName, out EntityMetadata result))
+			if (!entityMetadataCache.TryGetValue(entityName, out EntityMetadata result))
 			{
 				result = service.GetEntityMetadata(entityName);
-				EntityMetadataCache[entityName] = result;
+				entityMetadataCache[entityName] = result;
 			}
 
 			return result;
 		}
 
-		Dictionary<string, EntityMetadata> EntityMetadataCache = new Dictionary<string, EntityMetadata>();
+		readonly Dictionary<string, EntityMetadata> entityMetadataCache = new Dictionary<string, EntityMetadata>();
 	}
 }

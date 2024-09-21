@@ -3,7 +3,7 @@ using WorkflowModerniser.Inputs;
 
 namespace WorkflowModerniser
 {
-	public class WriterContext
+	internal class WriterContext
 	{
 		public bool IsPreOperation { get; private set; }
 		public string PrimaryEntityName { get; private set; }
