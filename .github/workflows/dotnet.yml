@@ -24,9 +24,9 @@ jobs:
       run: nuget restore WorkflowModerniser.sln
     
     - name: Build solution
-      run: msbuild WorkflowModerniser.sln -t:publish -property:Configuration=Release
+      run: msbuild WorkflowModerniser.sln -t:build -p:OutputPath=WorkflowModerniser\bin\Release -p:Configuration=Release
 
     - uses: actions/upload-artifact@v4
       with:
         name: WorkflowModerniser
-        path: WorkflowModerniser\bin\Release\app.publish\
+        path: WorkflowModerniser\bin\Release
