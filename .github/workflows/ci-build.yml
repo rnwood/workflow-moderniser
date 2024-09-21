@@ -26,12 +26,18 @@ jobs:
     - name: Build solution
       run: msbuild WorkflowModerniser.sln -t:publish -property:Configuration=Release
 
+    - uses: vimtor/action-zip@v1.2
+      with:
+        files: WorkflowModerniser\bin\Release\app.publish\
+        dest: WorkflowModerniser.zip
+
     - uses: actions/upload-artifact@v4
       with:
         name: WorkflowModerniser
-        path: WorkflowModerniser\bin\Release\app.publish\
+        path: WorkflowModerniser.zip
+        
     - name: Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/v')
       with:
-        files: WorkflowModerniser/bin/Release/app.publish/*
+        files: WorkflowModerniser.zip
