@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Xml.Linq;
 using WorkflowModerniser.Inputs;
 using WorkflowModerniser.Outputs;
 
@@ -419,7 +421,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 			expr.Append(outputAfter.ToString());
 
 			//Remove trailing ;
-			if (expr[expr.Length - 1] == ';')
+			if (expr.Length > 0 && expr[expr.Length - 1] == ';')
 			{
 				expr.Remove(expr.Length- 1, 1);
 			}
@@ -427,14 +429,17 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 			foreach (MessageName messageName in Enum.GetValues(typeof(MessageName)))
 			{
 				if (context.MessageNames.HasFlag(messageName))
-				{
-					if (messageName == MessageName.Action)
+                {
+					string schemaName = $"fixme_{context.WorkflowName.Replace(" ", "_")}_{(context.IsPreOperation ?"Pre":"Post")}{messageName}";
+
+
+                    if (messageName == MessageName.Action)
 					{
-						yield return new InstantPlugin(string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName.ToLower(), expr.ToString());
+						yield return new InstantPlugin(schemaName, string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName.ToLower(), expr.ToString());
 					}
 					else
 					{
-						yield return new AutomatedPlugin(string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName.ToLower(), context.IsPreOperation ? 20 : 40, messageName.ToString(), expr.ToString());
+						yield return new AutomatedPlugin(schemaName, string.Format("{0} - {1}", context.WorkflowName, messageName), context.PrimaryEntityName.ToLower(), context.IsPreOperation ? 20 : 40, messageName.ToString(), expr.ToString());
 					}
 				}
 			}
@@ -474,5 +479,15 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+        public void WriteSetVisibility(LCPEntityVariable entity, string controlIdExpression, string isVisibleExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteSetClientEntityDefaultValues(LCPEntityVariable entity)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

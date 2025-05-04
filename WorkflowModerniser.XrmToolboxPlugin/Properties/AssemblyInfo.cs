@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WorkflowModerniser.XrmToolboxPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Rob Wood <rob@rnwood.co.uk>")]
 [assembly: AssemblyProduct("WorkflowModerniser.XrmToolboxPlugin")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCopyright("Copyright © 2024-2025 Robert Wood")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

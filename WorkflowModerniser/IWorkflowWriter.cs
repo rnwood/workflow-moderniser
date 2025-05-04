@@ -35,5 +35,7 @@ namespace WorkflowModerniser
 		void WriteSetDisplayMode(TEntityVariable entity, string controlIdExpression, string isReadOnlyExpression);
 		void WriteSetClientEntityAttributeValues(TEntityVariable entity);
 		void WriteClientRecommendation(TEntityVariable entity, string controlIdExpression, string description, Dictionary<string, Action> writeActions) ;
-	}
+		void WriteSetVisibility(TEntityVariable entity, string controlIdExpression, string isVisibleExpression);
+		void WriteSetClientEntityDefaultValues(TEntityVariable entity);
+    }
 }

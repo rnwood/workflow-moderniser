@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SoftCircuits.JavaScriptFormatter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WorkflowModerniser.Outputs.JavaScriptFormScript
@@ -62,14 +64,19 @@ namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 					return $"{operand} === {elements[0]}";
 				case ConditionOperator.NotEqual:
 					return $"{operand} !== {elements[0]}";
-				default:
-					throw new NotImplementedException($"Condition 'condition' is not implemented.");
+				case ConditionOperator.Null:
+                    return $"{operand} === null || {operand} === undefined";
+                case ConditionOperator.NotNull:
+                    return $"{operand} !== null && {operand} !== undefined";
+
+                default:
+					throw new NotImplementedException($"Condition '{condition}' is not implemented.");
 			}
 		}
 
 		public string GetEntityPropertyExpresson(JSFSEntityVariable entity, string columnName)
 		{
-			headerOutputs.AppendLine($"{entity.EntityExpression}.getAttribute(\"{columnName}\").addOnChange(applyRules)");
+			headerOutputs.AppendLine($"{entity.EntityExpression}.getAttribute(\"{columnName}\").addOnChange(applyRules);");
 
 			return $"{entity.EntityExpression}.getAttribute(\"{columnName}\").getValue()";
 		}
@@ -87,7 +94,19 @@ namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 			else if (value is string stringValue)
 			{
 				return string.Format("\"{0}\"", stringValue.Replace("\"", "\"\""));
-			}
+			} else if (value is int intValue)
+			{
+				return intValue.ToString();
+			} else if (value is OptionSetValue optionSetValue)
+			{
+				return optionSetValue.Value.ToString();
+			} else if (value is Guid guidValue)
+			{
+				return $"\"{guidValue}\"";
+			} else if (value is EntityReference entityReferenceValue)
+			{
+                return $"{{\"entityType\": \"{entityReferenceValue.LogicalName}\", \"id\":\"{entityReferenceValue.Id}\"}}";
+            }
 			else
 			{
 				throw new NotSupportedException($"Writing literal of type '{value.GetType()}' not supported");
@@ -105,17 +124,17 @@ namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 			js.AppendLine("function onLoad(executionContext) {");
 			js.AppendLine("   const formContext = executionContext.getFormContext();");
 			js.AppendLine(headerOutputs.ToString());
-			js.AppendLine("}");
-			js.AppendLine();
-			js.AppendLine("function applyRules(executionContext){");
+			js.AppendLine("applyRules(executionContext, true);");
+            js.AppendLine();
+			js.AppendLine("function applyRules(executionContext, isOnLoad){");
 			js.AppendLine("   const formContext = executionContext.getFormContext();");
 			js.AppendLine(applyRuleOutputs.ToString());
 			js.AppendLine("}");
+            js.AppendLine("}");
 
-			yield return new JavaScriptFormScript.JavascriptFormScript
-			{
-				JavaScriptSource = js.ToString()
-			};
+			string formattedJs = new JavaScriptFormatter().Format(js.ToString());
+
+            yield return new JavaScriptFormScript.JavascriptFormScript(this.ctx.WorkflowName, formattedJs);
 		}
 
 		public JSFSEntityVariable LoadPrimaryEntity(string logicalName)
@@ -182,8 +201,8 @@ namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 
 		public void WriteCreateRow(JSFSEntityVariable entity)
 		{
-			throw new NotImplementedException();
-		}
+            throw new NotImplementedException();
+        }
 
 		public void WriteIf(string condition, Action writeThen, Action writeElse)
 		{
@@ -206,16 +225,33 @@ namespace WorkflowModerniser.Outputs.JavaScriptFormScript
 		{
 			foreach(var kvp in entity.ColumnExpressions)
 			{
-				this.applyRuleOutputs.AppendLine($"{entity.EntityExpression}.getAttribute('{kvp.Key}').setValue({kvp.Value})");
+				this.applyRuleOutputs.AppendLine($"{entity.EntityExpression}.getAttribute('{kvp.Key}').setValue({kvp.Value});");
 			}
 		}
 
-		public void WriteSetDisplayMode(JSFSEntityVariable entity, string controlIdExpression, string isReadOnlyExpression)
+        public void WriteSetClientEntityDefaultValues(JSFSEntityVariable entity)
+        {
+			this.applyRuleOutputs.AppendLine("if (isOnLoad && executionContext.getFormContext().ui.getFormType() == 1) {");
+
+            foreach (var kvp in entity.ColumnExpressions)
+            {
+                this.applyRuleOutputs.AppendLine($"{entity.EntityExpression}.getAttribute('{kvp.Key}').setValue({kvp.Value})");
+            }
+
+            this.applyRuleOutputs.AppendLine("}");
+        }
+
+        public void WriteSetDisplayMode(JSFSEntityVariable entity, string controlIdExpression, string isReadOnlyExpression)
 		{
-			applyRuleOutputs.AppendLine($"context.getControl({controlIdExpression}).setDisabled({isReadOnlyExpression})");
+			applyRuleOutputs.AppendLine($"context.getControl({controlIdExpression}).setDisabled({isReadOnlyExpression});");
 		}
 
-		public void WriteSetStatus(JSFSEntityVariable entity, int statecode, int statuscode)
+        public void WriteSetVisibility(JSFSEntityVariable entity, string controlIdExpression, string isVisibleExpression)
+        {
+            applyRuleOutputs.AppendLine($"context.getControl({controlIdExpression}).setVisible({isVisibleExpression});");
+        }
+
+        public void WriteSetStatus(JSFSEntityVariable entity, int statecode, int statuscode)
 		{
 			throw new NotImplementedException();
 		}

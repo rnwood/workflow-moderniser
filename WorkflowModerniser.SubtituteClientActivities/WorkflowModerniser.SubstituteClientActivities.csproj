@@ -92,7 +92,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetDefaultValue.cs" />
     <Compile Include="SetAttributeValue.cs" />
+    <Compile Include="SetVisibility.cs" />
     <Compile Include="SetMessage.cs" />
     <Compile Include="SetDisplayMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

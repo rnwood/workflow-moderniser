@@ -7,7 +7,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 {
 	public class AutomatedPlugin : PluginBase, IOutput
 	{
-		public AutomatedPlugin(string name, string entityLogicalName, int stage, string messageName, string expression) : base(name, entityLogicalName, expression)
+		public AutomatedPlugin(string schemaName, string name, string entityLogicalName, int stage, string messageName, string expression) : base(schemaName, name, entityLogicalName, expression)
 		{
 			Stage = stage;
 			MessageName = messageName;

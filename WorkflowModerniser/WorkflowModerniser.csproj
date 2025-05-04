@@ -64,6 +64,9 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="SoftCircuits.JavaScriptFormatter, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SoftCircuits.JavaScriptFormatter.2.2.0\lib\netstandard2.0\SoftCircuits.JavaScriptFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Activities.Presentation" />
@@ -158,6 +161,7 @@
     <Compile Include="Inputs\OrgServiceWorkflowSource.cs" />
     <Compile Include="IWorkflowConverter.cs" />
     <Compile Include="IWorkflowWriter.cs" />
+    <Compile Include="Outputs\ErrorOutput.cs" />
     <Compile Include="Outputs\IOutput.cs" />
     <Compile Include="Outputs\JavaScriptFormScript\JavascriptFormScript.cs" />
     <Compile Include="Outputs\JavaScriptFormScript\JavascriptFormScriptWriter.cs" />

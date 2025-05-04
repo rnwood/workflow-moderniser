@@ -6,11 +6,12 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 {
 	public class PluginBase
 	{
-		public PluginBase(string name, string entityLogicalName, string expression)
+		public PluginBase(string schemaName, string name, string entityLogicalName, string expression)
 		{
 			EntityLogicalName = entityLogicalName;
 			Expression = expression;
 			Name = name;
+			SchemaName = schemaName;
 		}
 
 		public string EntityLogicalName { get; set; }
@@ -19,7 +20,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 
 		public string Name { get; set; }
 
-		public string SchemaName { get => $"fixme_{Name.Replace(" ", "_")}"; }
+		public string SchemaName { get; set; }
 
 
 	}

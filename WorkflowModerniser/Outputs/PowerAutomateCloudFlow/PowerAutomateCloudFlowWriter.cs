@@ -243,5 +243,15 @@ namespace WorkflowModerniser.Outputs.PowerAutomateCloudFlow
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+        public void WriteSetVisibility(PACFEntityVariable entity, string controlIdExpression, string isVisibleExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteSetClientEntityDefaultValues(PACFEntityVariable entity)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -7,7 +7,7 @@ namespace WorkflowModerniser.Outputs.LowCodeCodePlugins
 {
 	public class InstantPlugin : PluginBase, ICustomActionOutput
 	{
-		public InstantPlugin(string name, string entityLogicalName,string expression) : base(name, entityLogicalName, expression)
+		public InstantPlugin(string schemaName, string name, string entityLogicalName,string expression) : base(schemaName, name, entityLogicalName, expression)
 		{
 		}
 

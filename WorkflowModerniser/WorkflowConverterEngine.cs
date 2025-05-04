@@ -88,23 +88,31 @@ namespace WorkflowModerniser
 
 		private IEnumerable<IOutput> Convert(IWorkflow workflow, WriterContext context)
 		{
-			writer = writerFactory(context);
-			entities.Clear();
-			variables.Clear();
-			childOutputs.Clear();
-			this.targetTableName = workflow.PrimaryEntity;
+			try
+			{
 
-			entities["InputEntities(\"primaryEntity\")"] = primaryEntity = writer.LoadPrimaryEntity(workflow.PrimaryEntity);
+				writer = writerFactory(context);
+				entities.Clear();
+				variables.Clear();
+				childOutputs.Clear();
+				this.targetTableName = workflow.PrimaryEntity;
 
-			XamlXmlReader xamlReader = new XamlXmlReader(new StringReader(workflow.XAMl
-				.Replace("clr-namespace:Microsoft.Crm.Workflow.ClientActivities;assembly=Microsoft.Crm.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35", "clr-namespace:WorkflowModerniser.SubstituteClientActivities;assembly=WorkflowModerniser.SubstituteClientActivities")
-				.Replace("assembly=Microsoft.Crm, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35", "assembly=WorkflowModerniser.SubstituteClientActivities")));
-			ActivityBuilder builder = (ActivityBuilder)XamlServices.Load(System.Activities.XamlIntegration.ActivityXamlServices.CreateBuilderReader(xamlReader));
+				entities["InputEntities(\"primaryEntity\")"] = primaryEntity = writer.LoadPrimaryEntity(workflow.PrimaryEntity);
 
-			Microsoft.Xrm.Sdk.Workflow.Activities.Workflow workflowImplementation = (Microsoft.Xrm.Sdk.Workflow.Activities.Workflow)builder.Implementation;
+				XamlXmlReader xamlReader = new XamlXmlReader(new StringReader(workflow.XAMl
+					.Replace("clr-namespace:Microsoft.Crm.Workflow.ClientActivities;assembly=Microsoft.Crm.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35", "clr-namespace:WorkflowModerniser.SubstituteClientActivities;assembly=WorkflowModerniser.SubstituteClientActivities")
+					.Replace("assembly=Microsoft.Crm, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35", "assembly=WorkflowModerniser.SubstituteClientActivities")));
+				ActivityBuilder builder = (ActivityBuilder)XamlServices.Load(System.Activities.XamlIntegration.ActivityXamlServices.CreateBuilderReader(xamlReader));
 
-			ConvertActivities(workflowImplementation.Activities, workflowImplementation.Variables);
-			return childOutputs.Concat(writer.GetOutputs());
+				Microsoft.Xrm.Sdk.Workflow.Activities.Workflow workflowImplementation = (Microsoft.Xrm.Sdk.Workflow.Activities.Workflow)builder.Implementation;
+
+				ConvertActivities(workflowImplementation.Activities, workflowImplementation.Variables);
+				return childOutputs.Concat(writer.GetOutputs());
+			}
+			catch (Exception ex)
+			{
+				return new IOutput[] { new ErrorOutput(workflow.Name, ex) };
+			}
 		}
 
 		private IWorkflowWriter<TEntityVariable> writer;
@@ -186,7 +194,13 @@ namespace WorkflowModerniser
 				case SetAttributeValue setAttributeValue:
 					ConvertSetAttributeValue(setAttributeValue);
 					break;
-				default:
+				case SetVisibility setVisibility:
+					ConvertSetVisibility(setVisibility);
+					break;
+				case SetDefaultValue setDefaultValue:
+					ConvertSetDefaultValue(setDefaultValue);
+					break;
+                default:
 					throw new NotImplementedException($"Activity type '{activity.GetType().FullName}' is not implemented");
 			}
 		}
@@ -199,7 +213,17 @@ namespace WorkflowModerniser
 			writer.WriteSetClientEntityAttributeValues(entity);
 		}
 
-		private void ConvertSetMessage(SetMessage setMessage)
+		private void ConvertSetDefaultValue(SetDefaultValue setDefaultValue)
+        {
+            string entityName = ((VisualBasicValue<Entity>)setDefaultValue.Entity.Expression).ExpressionText;
+            TEntityVariable entity = entities[entityName];
+
+            writer.WriteSetClientEntityDefaultValues(entity);
+
+
+        }
+
+        private void ConvertSetMessage(SetMessage setMessage)
 		{
 			string entityName = ((VisualBasicValue<Entity>)setMessage.Entity.Expression).ExpressionText;
 			TEntityVariable entity = entities[entityName];
@@ -235,7 +259,18 @@ namespace WorkflowModerniser
 			writer.WriteSetDisplayMode(entity, controlIdExpression, isReadOnlyExpression);
 		}
 
-		private void ConvertStartChildWorkflow(StartChildWorkflow startChildWorkflow)
+        private void ConvertSetVisibility(SetVisibility setVisibility)
+        {
+            string entityName = ((VisualBasicValue<Entity>)setVisibility.Entity.Expression).ExpressionText;
+            TEntityVariable entity = entities[entityName];
+
+            string controlIdExpression = GetInValue(setVisibility.ControlId.Expression);
+            string isVisibleExpression = GetInValue(setVisibility.IsVisible.Expression);
+
+            writer.WriteSetVisibility(entity, controlIdExpression, isVisibleExpression);
+        }
+
+        private void ConvertStartChildWorkflow(StartChildWorkflow startChildWorkflow)
 		{
 			Guid workflowId = ((Literal<Guid>)startChildWorkflow.WorkflowId.Expression).Value;
 			string entityName = GetInValue(startChildWorkflow.EntityName.Expression).Trim('"');
@@ -609,11 +644,13 @@ namespace WorkflowModerniser
 					return writer.GetLiteral(valueExpression);
 				case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.Guid":
 					return writer.GetLiteral(new Guid(valueExpression));
-				case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.OptionSetValue":
+                case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.Integer":
+                    return writer.GetLiteral(int.Parse(valueExpression));
+                case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.OptionSetValue":
 					return writer.GetLiteral(new OptionSetValue(int.Parse(valueExpression)));
 				case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.Boolean":
 					return writer.GetLiteral(bool.Parse(valueExpression.ToLower()));
-				case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.EntityReference":
+                case "Microsoft.Xrm.Sdk.Workflow.WorkflowPropertyType.EntityReference":
 					if (elements.Length == 3)
 					{
 						string varValue = variables[elements[1]];
