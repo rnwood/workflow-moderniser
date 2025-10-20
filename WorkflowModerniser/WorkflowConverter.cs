@@ -1,12 +1,10 @@
-﻿using Microsoft.Crm.Workflow.ObjectModel;
-using Microsoft.VisualBasic.Activities;
+﻿using Microsoft.VisualBasic.Activities;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Workflow.Activities;
 using System;
 using System.Activities;
 using System.Activities.Expressions;
-using System.Activities.Presentation.Debug;
 using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
