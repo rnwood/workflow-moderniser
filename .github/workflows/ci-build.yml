@@ -7,7 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -25,6 +25,20 @@ jobs:
     
     - name: Build solution
       run: msbuild WorkflowModerniser\WorkflowModerniser.csproj -t:build -p:OutputPath=bin\Release -p:Configuration=Release
+
+    - name: Build tests
+      run: msbuild WorkflowModerniser.Tests\WorkflowModerniser.Tests.csproj -t:build -p:OutputPath=bin\Release -p:Configuration=Release
+
+    - name: Run tests
+      run: |
+        dotnet test WorkflowModerniser.Tests\WorkflowModerniser.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
+
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
+      if: always()
+      with:
+        files: |
+          **/*.trx
 
     - uses: vimtor/action-zip@v1.2
       with:

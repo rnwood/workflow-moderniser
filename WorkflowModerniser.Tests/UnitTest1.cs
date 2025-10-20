@@ -11,12 +11,17 @@ using System.Threading.Tasks;
 
 namespace WorkflowModerniser.Tests
 {
+	/// <summary>
+	/// Tests for PowerFx integration with Dataverse using XrmMockup
+	/// This demonstrates that PowerFx expressions can be evaluated against Dataverse
+	/// </summary>
 	[TestClass]
-	public class UnitTest1
+	public class PowerFxIntegrationTests
 	{
 		[TestMethod]
-		public async Task TestMethod1()
+		public async Task PowerFx_CanEvaluateSimpleExpression_WithDataverseConnection()
 		{
+			// Arrange
 			Features toenable = Features.PowerFxV1;
 
 			PowerFxConfig config = new PowerFxConfig(toenable);
@@ -39,7 +44,11 @@ namespace WorkflowModerniser.Tests
 			DataverseConnection dataverse = SingleOrgPolicy.New(augmentedOrgService);
 			ReadOnlySymbolValues symbolValues = dataverse.SymbolValues;
 
+			// Act
 			FormulaValue result = await recalcEngine.EvalAsync("Set(a, 1)", default, symbolValues);
+
+			// Assert
+			Assert.IsNotNull(result);
 		}
 	}
 }
