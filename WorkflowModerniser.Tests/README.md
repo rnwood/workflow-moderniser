@@ -25,6 +25,18 @@ The tests are organized by component to ensure thorough coverage of the codebase
   - Entity operations (LoadPrimaryEntity, NewEntityVariable, etc.)
   - Property expressions and coalescing
 
+- **JavascriptFormScriptWriterTests.cs** - Tests for JavaScript form script generation (experimental):
+  - Literal value formatting for JavaScript
+  - Condition expressions (Equal, NotEqual)
+  - Entity property expressions with change handlers
+  - Entity variable operations
+
+- **PowerAutomateCloudFlowWriterTests.cs** - Tests for Power Automate Cloud Flow generation (experimental):
+  - Literal value formatting for Cloud Flows
+  - Entity variable creation and initialization
+  - Column expression management
+  - Trigger output expressions
+
 ### Output Tests
 
 - **PluginOutputTests.cs** - Tests for plugin output classes (AutomatedPlugin, InstantPlugin)
@@ -74,9 +86,11 @@ The test suite uses:
 The test suite covers:
 - ✅ Metadata service caching
 - ✅ Writer context configuration
-- ✅ Entity variable management
+- ✅ Entity variable management (Low Code Plugin, JavaScript Form Script, Cloud Flow)
 - ✅ PowerFx expression generation
-- ✅ Literal value formatting
+- ✅ JavaScript form script generation (experimental)
+- ✅ Power Automate Cloud Flow generation (experimental)
+- ✅ Literal value formatting across all output types
 - ✅ Condition and logical operators
 - ✅ Plugin output generation
 - ✅ Workflow conversion for different categories and stages
@@ -86,10 +100,11 @@ The test suite covers:
 
 Potential areas for additional testing:
 - More complex workflow conversion scenarios with actual XAML
-- Form script writer tests
-- Cloud flow writer tests
-- Error handling and edge cases
+- End-to-end workflow conversion with all activity types
+- Error handling and edge cases for unsupported scenarios
 - Performance testing for large workflows
+- Additional Cloud Flow action types
+- More JavaScript form script scenarios
 
 ## Notes
 
