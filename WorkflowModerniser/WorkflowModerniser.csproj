@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorkflowModerniser.SubtituteClientActivities\WorkflowModerniser.SubtituteClientActivities.csproj" />
+    <ProjectReference Include="../WorkflowModerniser.SubtituteClientActivities/WorkflowModerniser.SubtituteClientActivities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
