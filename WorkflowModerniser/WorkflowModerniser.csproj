@@ -19,11 +19,6 @@
   <ItemGroup>
     <Reference Include="System.Activities" />
     <PackageReference Include="UiPath.Workflow" Version="6.0.3" />
-    <Reference Include="System.Activities.Presentation" />
-    <Reference Include="System.Workflow.Activities" />
-    <Reference Include="System.Workflow.ComponentModel" />
-    <Reference Include="System.Workflow.Runtime" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
 
   <ItemGroup>

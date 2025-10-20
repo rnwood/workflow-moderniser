@@ -10,14 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.56" />
     <PackageReference Include="Microsoft.CrmSdk.Workflow" Version="9.0.2.56" />
+    <PackageReference Include="UiPath.Workflow" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="System.Activities" />
-    <Reference Include="System.Workflow.Activities" />
-    <Reference Include="System.Workflow.ComponentModel" />
-    <Reference Include="System.Workflow.Runtime" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
 
 </Project>
