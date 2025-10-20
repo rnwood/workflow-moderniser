@@ -242,9 +242,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LCPEntityVariableTests.cs" />
+    <Compile Include="LowCodePluginPowerFxWriterTests.cs" />
     <Compile Include="Metadata\TypeDeclarations.cs" />
+    <Compile Include="MetadataServiceTests.cs" />
+    <Compile Include="OrgServiceWorkflowSourceTests.cs" />
+    <Compile Include="PluginOutputTests.cs" />
     <Compile Include="PowerFxPlugin.cs" />
     <Compile Include="UnitTest1.cs" />
+    <Compile Include="WorkflowConverterTests.cs" />
+    <Compile Include="WriterContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
