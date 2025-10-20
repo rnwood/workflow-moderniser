@@ -14,15 +14,20 @@
     <PackageReference Include="Microsoft.CrmSdk.Workflow" Version="9.0.2.56" />
     <PackageReference Include="Microsoft.CrmSdk.XrmTooling.CoreAssembly" Version="9.1.1.45" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Activities" />
     <PackageReference Include="UiPath.Workflow" Version="6.0.3" />
+    <PackageReference Include="UiPath.Workflow.Runtime" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../WorkflowModerniser.SubtituteClientActivities/WorkflowModerniser.SubtituteClientActivities.csproj" />
+    <Reference Include="$(NuGetPackageRoot)uipath.workflow.runtime/6.0.3/lib/net6.0-windows7.0/System.Activities.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../WorkflowModerniser.SubstituteClientActivities/WorkflowModerniser.SubstituteClientActivities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

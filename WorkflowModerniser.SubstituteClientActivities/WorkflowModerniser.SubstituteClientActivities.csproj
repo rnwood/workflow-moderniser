@@ -11,10 +11,11 @@
     <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.56" />
     <PackageReference Include="Microsoft.CrmSdk.Workflow" Version="9.0.2.56" />
     <PackageReference Include="UiPath.Workflow" Version="6.0.3" />
+    <PackageReference Include="UiPath.Workflow.Runtime" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Activities" />
+    <Reference Include="$(NuGetPackageRoot)uipath.workflow.runtime/6.0.3/lib/net6.0-windows7.0/System.Activities.dll" />
   </ItemGroup>
 
 </Project>

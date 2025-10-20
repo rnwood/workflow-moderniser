@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser", "Workf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser.Tests", "WorkflowModerniser.Tests\WorkflowModerniser.Tests.csproj", "{BFCE06AC-53F6-43F0-AFAF-33FC58B59B6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser.SubstituteClientActivities", "WorkflowModerniser.SubtituteClientActivities\WorkflowModerniser.SubstituteClientActivities.csproj", "{FE623C6A-964E-4D9C-9DF5-6419C95D018E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowModerniser.SubstituteClientActivities", "WorkflowModerniser.SubstituteClientActivities\WorkflowModerniser.SubstituteClientActivities.csproj", "{FE623C6A-964E-4D9C-9DF5-6419C95D018E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
